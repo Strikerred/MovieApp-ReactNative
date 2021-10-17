@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  SafeAreaView, 
   FlatList, 
   View, 
   Text,
@@ -8,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Keyboard,
 } 
   from 'react-native';
 import {Colours, Buttons} from '../../styles';
@@ -17,6 +17,13 @@ import {
   movie,
   searchResults,
 } from '../../redux/actions/movies';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+const DismissKeyboard = ({children}) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 const SearchMovie = ({
   navigation, 
@@ -34,7 +41,7 @@ const SearchMovie = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <DismissKeyboard>
       <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchBarInput}
@@ -49,7 +56,7 @@ const SearchMovie = ({
         >
           <Text style={styles.buttonText}>Search</Text>
         </TouchableOpacity>
-      
+        
         {isLoading ? (
             <Text style={styles.smallHeader}></Text>
           ) : movies && movies.searchMovies.length > 0 ? (
@@ -78,7 +85,7 @@ const SearchMovie = ({
           ) : (
             <Text style={styles.smallHeader}>We could not get the movies, please try again later</Text>
         )}
-    </SafeAreaView>
+    </DismissKeyboard>
   );
 };
 
