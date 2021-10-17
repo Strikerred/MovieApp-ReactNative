@@ -25,7 +25,7 @@ function SwitchNavigator({user}) {
             ) : (
               <>
                 <Stack.Screen
-                  name="Home"
+                  name="Popular Movies"
                   component={HomePage}
                 />
                 <Stack.Screen
