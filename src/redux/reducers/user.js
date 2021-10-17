@@ -15,7 +15,11 @@ import {
   ) => {
     switch (action.type) {
         case TOKEN:
-        return {...state, token: action.payload};
+        return {
+          ...state, 
+          token: action.payload,
+          isLoading: false,
+        };
         case UPDATE_EMAIL:
         return {
             ...state,
