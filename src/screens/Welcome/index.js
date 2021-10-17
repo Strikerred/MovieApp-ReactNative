@@ -6,10 +6,12 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import { getMovies } from '../../redux/actions/movies';
+import {getMovies} from '../../redux/actions/movies';
+import {Colours, Buttons} from '../../styles';
 
 const PopularMovies = ({
     navigation,
@@ -20,7 +22,8 @@ const PopularMovies = ({
 }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const [search, setSearch] = React.useState('');
-
+    const [movie, setMovie] = React.useState('');
+    
     const initializeGroups = async () => {
         await getMovies();
         setIsLoading(false);
@@ -34,12 +37,10 @@ const PopularMovies = ({
         <SafeAreaView style={styles.container}>
           <View style={styles.top}>
             <TouchableOpacity 
-              style={styles.button}
+              style={styles.SearchBox} 
               onPress={() => navigation.navigate('Search Movie')}
-              >
-              <SearchBar
-                placeholder="Search a movie"               
-              />
+            >
+              <Text style={styles.buttonText}>Search a Movie</Text>
             </TouchableOpacity>
             {isLoading ? (
               <Text style={styles.smallHeader}>Loading..</Text>
@@ -49,15 +50,17 @@ const PopularMovies = ({
                 renderItem={({item}) => (
                     <View style={styles.movie}>
                       <Text style={styles.subHeader}>{item.original_title}</Text>
+                      <Text style={styles.subHeader}>Release Date: {item.release_date}</Text>
                       <Image
                         style={imageStyle(item.poster_path ? 300 : 0)}
                         source={
                           item.poster_path ? {uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path} : null
                         }
                       />
+                      <Text style={styles.subHeader}>Rate: {item.vote_average}</Text>
                       <View style={styles.info}>
                         <Text style={styles.smallHeader}>
-                          {item.overview.substring(0, 150)}... *{' '}
+                          {item.overview.substring(0, 150)}...
                         </Text>
                       </View>
                     </View>
@@ -123,18 +126,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  button: {
-    width: 100,
-    height: 35,
+  SearchBox: {
+    width: '100%',
+    height: 50,
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
-    borderRadius: 20,
+    backgroundColor: '#000000',
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#000000',
+    ...Buttons.mainButtonText(Colours.white),
   },
 });
 
