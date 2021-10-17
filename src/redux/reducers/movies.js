@@ -1,11 +1,13 @@
 import {
     MOVIES_LIST,
+    MOVIES_LIST_,
     UPDATE_SEARCH,
 } from '../actions/movies';
 
 const movies = (
     state = {
         moviesList: [],
+        searchMovies: [],
         isLoading: true,
         search: '',
     },
@@ -16,6 +18,11 @@ const movies = (
             return {
                 ...state,
                 moviesList: action.payload,
+            };
+        case MOVIES_LIST_:
+            return {
+                ...state,
+                searchMovies: action.payload,
             };
         case UPDATE_SEARCH:
             return{
